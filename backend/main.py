@@ -4,7 +4,7 @@ from pydantic import BaseModel
 import requests
 import json
 from pathlib import Path
-from config import GPT_API_KEY
+from settings import GPT_API_KEY
 
 app = FastAPI()
 
