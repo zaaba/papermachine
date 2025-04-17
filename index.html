@@ -312,7 +312,9 @@ function downloadPDF() {
     doc.text(content, 10, 10, { maxWidth: 190 });
     doc.save("paper_machine_output.pdf");
 }
+</script>
 
+<script>
 async function downloadWord() {
     const textareas = document.querySelectorAll("textarea");
     const { Document, Packer, Paragraph, HeadingLevel } = window.docx;
@@ -323,28 +325,36 @@ async function downloadWord() {
         const title = ta.closest("section").dataset.title || `Section ${index + 1}`;
         const content = ta.value.trim();
 
-        children.push(
-            new Paragraph({
-                text: title,
-                heading: HeadingLevel.HEADING_1,
-            }),
-            new Paragraph({
-                text: content,
-                spacing: { after: 300 },
-            })
-        );
+        if (content) {
+            children.push(
+                new Paragraph({
+                    text: title,
+                    heading: HeadingLevel.HEADING_1,
+                }),
+                new Paragraph({
+                    text: content,
+                    spacing: { after: 300 },
+                })
+            );
+        }
     });
 
     const doc = new Document({
-        sections: [{ children }]
+        sections: [{
+            properties: {},
+            children: children
+        }]
     });
 
-    const blob = await Packer.toBlob(doc);
-    saveAs(blob, "paper_machine_output.docx");
+    try {
+        const blob = await Packer.toBlob(doc);
+        saveAs(blob, "paper_machine_output.docx");
+    } catch (err) {
+        alert("Error generating Word file: " + err.message);
+        console.error(err);
+    }
 }
 </script>
-
-
 
 </body>
 </html>
