@@ -25,28 +25,25 @@
             line-height: 1.6;
         }
 
-        .banner {
-            background-color: #007bff;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            font-size: 2rem;
-            font-weight: bold;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-        }
+.banner {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    background-color: #1F2A44; /* Matching dark blue background */
+    padding: 0;
+    overflow: hidden;
+}
+
+.banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+
 
         .container {
-            display: flex;
-            flex-direction: row;
             padding: 20px;
-            gap: 20px;
-        }
-
-        .content {
-            flex: 2;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
         }
 
         .section-card {
@@ -55,6 +52,7 @@
             border-radius: 8px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s;
+            margin-bottom: 20px;
         }
 
         .section-card:hover {
@@ -64,36 +62,35 @@
         textarea {
             width: 100%;
             min-height: 120px;
-            margin-top: 10px;
             padding: 10px;
             border-radius: 8px;
             border: 1px solid #ced4da;
             background-color: #f8f9fa;
-            font-size: 1rem;
             resize: vertical;
         }
 
-        .chat-container {
-            width: 350px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        .chat-sidebar {
             position: fixed;
-            right: 20px;
-            bottom: 80px;
-            display: none;
+            top: 0;
+            right: -360px;
+            width: 350px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            transition: right 0.3s ease;
             z-index: 1000;
-            cursor: move;
-            max-height: 500px;
-            overflow-y: auto;
+        }
+
+        .chat-sidebar.active {
+            right: 0;
         }
 
         .chat-button {
             position: fixed;
             right: 20px;
             bottom: 20px;
-           background-color: #007bff;
+            background-color: #007bff;
             color: white;
             padding: 12px 20px;
             border-radius: 50px;
@@ -101,57 +98,48 @@
             font-size: 1rem;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             z-index: 1001;
-            transition: all 0.3s ease;
         }
-
-        @media screen and (max-width: 600px) {
-            .chat-button {
-                padding: 10px 15px;
-                font-size: 0.85rem;
-                right: 10px;
-                bottom: 10px;
-        }
-
-    .chat-container {
-        width: 90%;
-        right: 10px;
-        bottom: 60px;
-    }
-}
-
 
         .chat-input {
             width: 100%;
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ced4da;
+            margin-bottom: 10px;
         }
 
         .chat-response {
-            margin-top: 10px;
             padding: 10px;
             background: #f1f1f1;
             border-radius: 5px;
-            min-height: 50px;
             overflow-y: auto;
-            max-height: 300px;
+            max-height: 60vh;
             user-select: text;
         }
 
         .close-chat {
             background: none;
             border: none;
-            font-size: 1.2rem;
+            font-size: 1rem;
             cursor: pointer;
             position: absolute;
             right: 10px;
             top: 10px;
         }
+
+        @media (max-width: 600px) {
+            .chat-sidebar {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <div class="banner">Article Paper Development</div>
+    <div class="banner">
+    <img src="banner.png" alt="Banner Image">
+    </div>
+
     <div class="container">
         <div class="content">
 
@@ -246,93 +234,70 @@
         </div>
     </div>
 
-    <!-- "Chat with GPT" Toggle Button (Now Visible) -->
-    <button class="chat-button" onclick="toggleChat()">Chat with GPT</button>
-
-
-        <!-- Chat Window (Initially Hidden) -->
-    <div class="chat-container" id="chatWindow">
-        <button class="close-chat" onclick="toggleChat()">×</button>
+    <!-- Sidebar Chat -->
+    <div id="chatSidebar" class="chat-sidebar">
+        <button class="close-chat" onclick="toggleChat()">× Close</button>
         <h3>ChatGPT Assistant</h3>
         <input type="text" id="chatInput" class="chat-input" placeholder="Enter your prompt...">
         <button onclick="sendChat()">Send</button>
-    <div id="chatResponse" class="chat-response"></div>
+        <div id="chatResponse" class="chat-response"></div>
     </div>
 
-<script>
-    // Generate or reuse a unique session ID per user
-    let sessionId = localStorage.getItem("sessionId") || generateSessionId();
+    <button class="chat-button" onclick="toggleChat()">Chat with GPT</button>
 
-    function generateSessionId() {
-        let id = 'session-' + Math.random().toString(36).substr(2, 9);
-        localStorage.setItem("sessionId", id);
-        return id;
-    }
+   <script>
+    // Generate or reuse a unique session ID per user
+    let sessionId = localStorage.getItem("sessionId") || 'session-' + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem("sessionId", sessionId);
 
     function toggleChat() {
-        let chatWindow = document.getElementById("chatWindow");
-        let isHidden = chatWindow.style.display === "none" || chatWindow.style.display === "";
-        chatWindow.style.display = isHidden ? "block" : "none";
+        document.getElementById("chatSidebar").classList.toggle("active");
     }
 
     async function sendChat() {
-        let prompt = document.getElementById("chatInput").value;
-        if (!prompt) return;
+        const chatInput = document.getElementById("chatInput");
+        const chatResponse = document.getElementById("chatResponse");
+        const prompt = chatInput.value.trim();
 
-        document.getElementById("chatResponse").innerHTML = "Thinking...";
+        if (!prompt) return; // Prevent empty messages
+
+        chatResponse.innerHTML += `<p><strong>You:</strong> ${prompt}</p>`;
+        chatInput.value = "";  // Clear input field after sending
+        chatResponse.innerHTML += `<p><em>Thinking...</em></p>`;
 
         try {
-            let response = await fetch("http://localhost:8000/chat", {
+            const response = await fetch("http://localhost:8000/chat", {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({prompt: prompt, session_id: sessionId})
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ prompt, session_id: sessionId })
             });
 
-            if (!response.ok) {
-                throw new Error(`API Error: ${response.status} ${response.statusText}`);
-            }
+            if (!response.ok) throw new Error(`API Error: ${response.status}`);
 
-            let data = await response.json();
-            document.getElementById("chatResponse").innerHTML = data.response;
+            const data = await response.json();
+            chatResponse.innerHTML += `<p><strong>ChatGPT:</strong> ${data.response}</p>`;
+            chatResponse.scrollTop = chatResponse.scrollHeight;  // Auto-scroll to latest message
 
         } catch (error) {
-            console.error(error);
-            document.getElementById("chatResponse").innerHTML = `Error: ${error.message}`;
+            chatResponse.innerHTML += `<p style="color:red;">Error: ${error.message}</p>`;
         }
     }
 
-    function makeChatDraggable() {
-        const chatBox = document.getElementById("chatWindow");
-        let offsetX, offsetY, isDragging = false;
+    // ✅ Fix: Attach "Enter" key event to chat input
+    document.addEventListener("DOMContentLoaded", function () {
+        let chatInput = document.getElementById("chatInput");
 
-        chatBox.addEventListener("mousedown", (event) => {
-            isDragging = true;
-            offsetX = event.clientX - chatBox.getBoundingClientRect().left;
-            offsetY = event.clientY - chatBox.getBoundingClientRect().top;
-            chatBox.style.position = "absolute";
-            chatBox.style.zIndex = 1000;
+        chatInput.addEventListener("keydown", function (event) {
+            if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();  // Prevent new line in input
+                sendChat();
+            }
         });
-
-        document.addEventListener("mousemove", (event) => {
-            if (!isDragging) return;
-            let x = event.clientX - offsetX;
-            let y = event.clientY - offsetY;
-            chatBox.style.left = `${x}px`;
-            chatBox.style.top = `${y}px`;
-        });
-
-        document.addEventListener("mouseup", () => {
-            isDragging = false;
-        });
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-        makeChatDraggable();
-        document.getElementById("chatWindow").style.display = "none"; // Ensure it is hidden initially
     });
 </script>
 
 
-</body>
 
+
+</body>
 </html>
