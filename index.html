@@ -14,8 +14,125 @@
 
     <!-- Load API Configuration -->
     <script src="config.js"></script>
-    <link rel="stylesheet" href="style.css">
-    <script src="main.js" defer></script>
+
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+        }
+
+.banner {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    background-color: #1F2A44; /* Matching dark blue background */
+    padding: 0;
+    overflow: hidden;
+}
+
+.banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+
+        .container {
+            padding: 20px;
+        }
+
+        .section-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            margin-bottom: 20px;
+        }
+
+        .section-card:hover {
+            transform: scale(1.02);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            background-color: #f8f9fa;
+            resize: vertical;
+        }
+
+        .chat-sidebar {
+            position: fixed;
+            top: 0;
+            right: -360px;
+            width: 350px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            transition: right 0.3s ease;
+            z-index: 1000;
+        }
+
+        .chat-sidebar.active {
+            right: 0;
+        }
+
+        .chat-button {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            margin-bottom: 10px;
+        }
+
+        .chat-response {
+            padding: 10px;
+            background: #f1f1f1;
+            border-radius: 5px;
+            overflow-y: auto;
+            max-height: 60vh;
+            user-select: text;
+        }
+
+        .close-chat {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .chat-sidebar {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -35,7 +152,7 @@
     </div>
 
 
-            <section class="section-card" data-title="Title and Abstract" aria-label="Title and Abstract">
+            <section class="section-card" data-title="Title and Abstract">
                 <h2>Title and Abstract</h2>
                 <p><strong>1. Clearly state the research problem or question. <br>
                         2. Provide a brief overview of the existing literature. <br>
@@ -44,11 +161,10 @@
                     "Generate a research title and an abstract for an article on [insert topic]. The abstract should summarize the
                     research objectives, methodology, key findings, and significance in 200–250 words."
                 </p>
-                <label for="titleAbstractInput">Your input:</label>
-                <textarea id="titleAbstractInput" placeholder="Enter your content here..."></textarea>
+                <textarea placeholder="Enter your content here..."></textarea>
             </section>
 
-            <section class="section-card" data-title="Introduction" aria-label="Introduction">
+            <section class="section-card" data-title="Introduction">
                 <h2>Introduction</h2>
                 <p>1. Conduct a comprehensive review of relevant literature.
                     <br>2. Identify key theories, concepts, and empirical findings.
@@ -58,11 +174,10 @@
                     "Write an introduction for a research article on [insert topic]. Include the background of the study, the problem
                     statement, and the objectives of the research. The introduction should be 300–400 words long."
                 </p>
-                <label for="introductionInput">Your input:</label>
-                <textarea id="introductionInput" placeholder="Enter your introduction here..."></textarea>
+                <textarea placeholder="Enter your introduction here..."></textarea>
             </section>
 
-            <section class="section-card" data-title="Literature Review" aria-label="Literature Review">
+            <section class="section-card" data-title="Literature Review">
                 <h2>Literature Review</h2>
                 <p>1. Develop a theoretical framework that underpins the paper's argument.<br>
                     2. Define key concepts and their relationships.<br>
@@ -72,11 +187,10 @@
                     sources, highlighting their relevance, gaps, and how they inform the current research. Use proper
                     in-text citations and ensure the section is 600–800 words."
                 </p>
-                <label for="literatureReviewInput">Your input:</label>
-                <textarea id="literatureReviewInput" placeholder="Enter the literature review here..."></textarea>
+                <textarea placeholder="Enter the literature review here..."></textarea>
             </section>
 
-            <section class="section-card" data-title="Theoretical and Conceptual Framework" aria-label="Theoretical and Conceptual Framework">
+            <section class="section-card" data-title="Theoretical and Conceptual Framework">
                 <h2>Theoretical and Conceptual Framework</h2>
                 <p>1. Formulate clear and testable propositions or hypotheses.<br>
                     2. Explain how these propositions or hypotheses relate to the theoretical framework.</p>
@@ -85,11 +199,10 @@
                     that underpin the study, and outline how these are applied in the research context. Include a diagram to
                     represent the conceptual framework if possible. This section should be 400–500 words."
                 </p>
-                <label for="theoreticalFrameworkInput">Your input:</label>
-                <textarea id="theoreticalFrameworkInput" placeholder="Enter your theoretical framework here..."></textarea>
+                <textarea placeholder="Enter your theoretical framework here..."></textarea>
             </section>
 
-            <section class="section-card" data-title="Future Work and Conclusion" aria-label="Future Work and Conclusion">
+            <section class="section-card" data-title="Future Work and Conclusion">
                 <h2>Future Work and Conclusion</h2>
                 <p>1. Analyze the implications of the theoretical framework.<br>
                     2. Discuss the strengths and weaknesses of the proposed framework.<br>
@@ -101,11 +214,10 @@
                     "Draft a conclusion for a research article on [insert topic]. Summarize the key findings, their implications,
                     and the overall contribution of the study. The conclusion should be 250–300 words."
                 </p>
-                <label for="futureWorkInput">Your input:</label>
-                <textarea id="futureWorkInput" placeholder="Enter your future work and conclusion here..."></textarea>
+                <textarea placeholder="Enter your future work and conclusion here..."></textarea>
             </section>
 
-            <section class="section-card" data-title="References" aria-label="References">
+            <section class="section-card" data-title="References">
                 <h2>References</h2>
                 <p>1. Summarize the main findings and contributions of the paper.<br>
                     2. Reiterate the significance of the research.<br>
@@ -115,8 +227,7 @@
                     following sources: [list at least five sources or let the student input them]. Ensure the references
                     are formatted accurately."
                 </p>
-                <label for="referencesInput">Your input:</label>
-                <textarea id="referencesInput" placeholder="Enter your references here..."></textarea>
+                <textarea placeholder="Enter your references here..."></textarea>
             </section>
             <button onclick="downloadPDF()">Download PDF</button>
             <button onclick="downloadWord()">Download Word</button>
@@ -134,6 +245,102 @@
 
     <button class="chat-button" onclick="toggleChat()">Chat with GPT</button>
 
-   <!-- Updated: 17 April 2025, 14:42 -->
+   <script>
+    // Generate or reuse a unique session ID per user
+    let sessionId = localStorage.getItem("sessionId") || 'session-' + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem("sessionId", sessionId);
+
+    function toggleChat() {
+        document.getElementById("chatSidebar").classList.toggle("active");
+    }
+
+    async function sendChat() {
+        const chatInput = document.getElementById("chatInput");
+        const chatResponse = document.getElementById("chatResponse");
+        const prompt = chatInput.value.trim();
+
+        if (!prompt) return; // Prevent empty messages
+
+        chatResponse.innerHTML += `<p><strong>You:</strong> ${prompt}</p>`;
+        chatInput.value = "";  // Clear input field after sending
+        chatResponse.innerHTML += `<p><em>Thinking...</em></p>`;
+
+        try {
+            const response = await fetch(`${API_BASE}/chat`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ prompt, session_id: sessionId })
+            });
+
+            if (!response.ok) throw new Error(`API Error: ${response.status}`);
+
+            const data = await response.json();
+            chatResponse.innerHTML += `<p><strong>ChatGPT:</strong> ${data.response}</p>`;
+            chatResponse.scrollTop = chatResponse.scrollHeight;  // Auto-scroll to latest message
+
+        } catch (error) {
+            chatResponse.innerHTML += `<p style="color:red;">Error: ${error.message}</p>`;
+        }
+    }
+
+    // ✅ Fix: Attach "Enter" key event to chat input
+    document.addEventListener("DOMContentLoaded", function () {
+        let chatInput = document.getElementById("chatInput");
+
+        chatInput.addEventListener("keydown", function (event) {
+            if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();  // Prevent new line in input
+                sendChat();
+            }
+        });
+    });
+</script>
+
+<script>
+function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const textareas = document.querySelectorAll("textarea");
+    let content = "";
+
+    textareas.forEach((ta, index) => {
+        const title = ta.closest("section").dataset.title || `Section ${index + 1}`;
+        content += `${title}\n${ta.value.trim()}\n\n`;
+    });
+
+    doc.setFontSize(12);
+    doc.text(content, 10, 10, { maxWidth: 190 });
+    doc.save("paper_machine_output.pdf");
+}
+</script>
+
+<script>
+function downloadWord() {
+    const textareas = document.querySelectorAll("textarea");
+
+    let content = `
+        <html xmlns:o='urn:schemas-microsoft-com:office:office'
+              xmlns:w='urn:schemas-microsoft-com:office:word'
+              xmlns='http://www.w3.org/TR/REC-html40'>
+        <head><meta charset='utf-8'><title>Document</title></head><body>`;
+
+    textareas.forEach((ta, index) => {
+        const title = ta.closest("section").dataset.title || `Section ${index + 1}`;
+        const text = ta.value.trim().replace(/\n/g, "<br>");
+        content += `<h2>${title}</h2><p>${text}</p>`;
+    });
+
+    content += `</body></html>`;
+
+    const blob = new Blob(['\ufeff', content], {
+        type: 'application/msword'
+    });
+
+    saveAs(blob, "paper_machine_output.docx");
+}
+</script>
+
 </body>
 </html>
+
+<!-- \\update 14.42 - 17.4.25 -->
