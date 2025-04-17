@@ -315,44 +315,28 @@ function downloadPDF() {
 </script>
 
 <script>
-async function downloadWord() {
+function downloadWord() {
     const textareas = document.querySelectorAll("textarea");
-    const { Document, Packer, Paragraph, HeadingLevel } = window.docx;
 
-    const children = [];
+    let content = `
+        <html xmlns:o='urn:schemas-microsoft-com:office:office'
+              xmlns:w='urn:schemas-microsoft-com:office:word'
+              xmlns='http://www.w3.org/TR/REC-html40'>
+        <head><meta charset='utf-8'><title>Document</title></head><body>`;
 
     textareas.forEach((ta, index) => {
         const title = ta.closest("section").dataset.title || `Section ${index + 1}`;
-        const content = ta.value.trim();
-
-        if (content) {
-            children.push(
-                new Paragraph({
-                    text: title,
-                    heading: HeadingLevel.HEADING_1,
-                }),
-                new Paragraph({
-                    text: content,
-                    spacing: { after: 300 },
-                })
-            );
-        }
+        const text = ta.value.trim().replace(/\n/g, "<br>");
+        content += `<h2>${title}</h2><p>${text}</p>`;
     });
 
-    const doc = new Document({
-        sections: [{
-            properties: {},
-            children: children
-        }]
+    content += `</body></html>`;
+
+    const blob = new Blob(['\ufeff', content], {
+        type: 'application/msword'
     });
 
-    try {
-        const blob = await Packer.toBlob(doc);
-        saveAs(blob, "paper_machine_output.docx");
-    } catch (err) {
-        alert("Error generating Word file: " + err.message);
-        console.error(err);
-    }
+    saveAs(blob, "paper_machine_output.docx");
 }
 </script>
 
