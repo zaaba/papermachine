@@ -266,7 +266,7 @@
         chatResponse.innerHTML += `<p><em>Thinking...</em></p>`;
 
         try {
-            const response = await fetch("http://localhost:8000/chat", {
+            const response = await fetch(`${API_BASE}/chat`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ prompt, session_id: sessionId })
