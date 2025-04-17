@@ -313,17 +313,32 @@ function downloadPDF() {
     doc.save("paper_machine_output.pdf");
 }
 
-function downloadWord() {
+async function downloadWord() {
     const textareas = document.querySelectorAll("textarea");
-    let content = "";
 
+    const { Document, Packer, Paragraph, TextRun } = window.docx;
+
+    const doc = new Document();
     textareas.forEach((ta, index) => {
         const title = ta.closest("section").dataset.title || `Section ${index + 1}`;
-        content += `${title}\n${ta.value.trim()}\n\n`;
+        const content = ta.value.trim();
+
+        doc.addSection({
+            children: [
+                new Paragraph({
+                    text: title,
+                    heading: "Heading1",
+                }),
+                new Paragraph({
+                    text: content,
+                    spacing: { after: 300 },
+                }),
+            ],
+        });
     });
 
-    const blob = new Blob([content], { type: "application/msword" });
-    saveAs(blob, "paper_machine_output.doc");
+    const blob = await Packer.toBlob(doc);
+    saveAs(blob, "paper_machine_output.docx");
 }
 </script>
 
