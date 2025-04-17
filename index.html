@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Paper Development</title>
+
+    <!-- Load Required Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docx@7.1.0/build/index.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Load API Configuration -->
+    <script src="config.js"></script>
+
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+        }
+
+.banner {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    background-color: #1F2A44; /* Matching dark blue background */
+    padding: 0;
+    overflow: hidden;
+}
+
+.banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+
+        .container {
+            padding: 20px;
+        }
+
+        .section-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            margin-bottom: 20px;
+        }
+
+        .section-card:hover {
+            transform: scale(1.02);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            background-color: #f8f9fa;
+            resize: vertical;
+        }
+
+        .chat-sidebar {
+            position: fixed;
+            top: 0;
+            right: -360px;
+            width: 350px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            transition: right 0.3s ease;
+            z-index: 1000;
+        }
+
+        .chat-sidebar.active {
+            right: 0;
+        }
+
+        .chat-button {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            margin-bottom: 10px;
+        }
+
+        .chat-response {
+            padding: 10px;
+            background: #f1f1f1;
+            border-radius: 5px;
+            overflow-y: auto;
+            max-height: 60vh;
+            user-select: text;
+        }
+
+        .close-chat {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .chat-sidebar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="banner">
+    <img src="banner.png" alt="Banner Image">
+    </div>
+
+    <div class="container">
+        <div class="content">
+
+                <!-- Welcome Message -->
+    <div class="welcome-message" style="text-align: center; padding: 15px; font-size: 1.2rem; background-color: #ffffff; box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1); margin-bottom: 20px;">
+        <h2>Welcome To Paper Machine</h2>
+        <p><strong>Answer the questions below to develop your research paper.<br>
+        Once completed, download the responses as a PDF.<br>
+        We will provide a suggested prompt for ChatGPT for your oxygen!</strong></p>
+    </div>
+
+
+            <section class="section-card" data-title="Title and Abstract">
+                <h2>Title and Abstract</h2>
+                <p><strong>1. Clearly state the research problem or question. <br>
+                        2. Provide a brief overview of the existing literature. <br>
+                        3. Present the paper's thesis statement or main argument.</strong></p>
+                <p><strong>General Prompts:</strong><br>
+                    "Generate a research title and an abstract for an article on [insert topic]. The abstract should summarize the
+                    research objectives, methodology, key findings, and significance in 200–250 words."
+                </p>
+                <textarea placeholder="Enter your content here..."></textarea>
+            </section>
+
+            <section class="section-card" data-title="Introduction">
+                <h2>Introduction</h2>
+                <p>1. Conduct a comprehensive review of relevant literature.
+                    <br>2. Identify key theories, concepts, and empirical findings.
+                    <br>3. Highlight gaps in the literature and the need for further research.
+                </p>
+                <p><strong>General Prompts:</strong><br>
+                    "Write an introduction for a research article on [insert topic]. Include the background of the study, the problem
+                    statement, and the objectives of the research. The introduction should be 300–400 words long."
+                </p>
+                <textarea placeholder="Enter your introduction here..."></textarea>
+            </section>
+
+            <section class="section-card" data-title="Literature Review">
+                <h2>Literature Review</h2>
+                <p>1. Develop a theoretical framework that underpins the paper's argument.<br>
+                    2. Define key concepts and their relationships.<br>
+                    3. Explain how the framework contributes to understanding the research problem.</p>
+                <p><strong>General Prompts:</strong><br>
+                    "Provide a literature review section for a study on [insert topic]. Summarize and analyze at least five key scholarly
+                    sources, highlighting their relevance, gaps, and how they inform the current research. Use proper
+                    in-text citations and ensure the section is 600–800 words."
+                </p>
+                <textarea placeholder="Enter the literature review here..."></textarea>
+            </section>
+
+            <section class="section-card" data-title="Theoretical and Conceptual Framework">
+                <h2>Theoretical and Conceptual Framework</h2>
+                <p>1. Formulate clear and testable propositions or hypotheses.<br>
+                    2. Explain how these propositions or hypotheses relate to the theoretical framework.</p>
+                <p><strong>General Prompt:</strong><br>
+                    "Develop the theoretical and conceptual framework for a research article on [insert topic]. Explain the theories or models
+                    that underpin the study, and outline how these are applied in the research context. Include a diagram to
+                    represent the conceptual framework if possible. This section should be 400–500 words."
+                </p>
+                <textarea placeholder="Enter your theoretical framework here..."></textarea>
+            </section>
+
+            <section class="section-card" data-title="Future Work and Conclusion">
+                <h2>Future Work and Conclusion</h2>
+                <p>1. Analyze the implications of the theoretical framework.<br>
+                    2. Discuss the strengths and weaknesses of the proposed framework.<br>
+                    3. Consider potential limitations and future research directions.</p>
+                <p><strong>General Prompts:</strong><br>
+                    "Write a future work section for a study on [insert topic]. Discuss potential research directions, limitations
+                    of the current study, and how future studies could expand on the findings. This section should be
+                    200–300 words long."<br>
+                    "Draft a conclusion for a research article on [insert topic]. Summarize the key findings, their implications,
+                    and the overall contribution of the study. The conclusion should be 250–300 words."
+                </p>
+                <textarea placeholder="Enter your future work and conclusion here..."></textarea>
+            </section>
+
+            <section class="section-card" data-title="References">
+                <h2>References</h2>
+                <p>1. Summarize the main findings and contributions of the paper.<br>
+                    2. Reiterate the significance of the research.<br>
+                    3. Offer concluding remarks and potential implications for future research.</p>
+                <p><strong>General Prompt:</strong><br>
+                    "Generate a reference list in [insert preferred citation style, e.g., APA 7th edition] for the
+                    following sources: [list at least five sources or let the student input them]. Ensure the references
+                    are formatted accurately."
+                </p>
+                <textarea placeholder="Enter your references here..."></textarea>
+            </section>
+            <button onclick="downloadPDF()">Download PDF</button>
+            <button onclick="downloadWord()">Download Word</button>
+        </div>
+    </div>
+
+    <!-- Sidebar Chat -->
+    <div id="chatSidebar" class="chat-sidebar">
+        <button class="close-chat" onclick="toggleChat()">× Close</button>
+        <h3>ChatGPT Assistant</h3>
+        <input type="text" id="chatInput" class="chat-input" placeholder="Enter your prompt...">
+        <button onclick="sendChat()">Send</button>
+        <div id="chatResponse" class="chat-response"></div>
+    </div>
+
+    <button class="chat-button" onclick="toggleChat()">Chat with GPT</button>
+
+   <script>
+    // Generate or reuse a unique session ID per user
+    let sessionId = localStorage.getItem("sessionId") || 'session-' + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem("sessionId", sessionId);
+
+    function toggleChat() {
+        document.getElementById("chatSidebar").classList.toggle("active");
+    }
+
+    async function sendChat() {
+        const chatInput = document.getElementById("chatInput");
+        const chatResponse = document.getElementById("chatResponse");
+        const prompt = chatInput.value.trim();
+
+        if (!prompt) return; // Prevent empty messages
+
+        chatResponse.innerHTML += `<p><strong>You:</strong> ${prompt}</p>`;
+        chatInput.value = "";  // Clear input field after sending
+        chatResponse.innerHTML += `<p><em>Thinking...</em></p>`;
+
+        try {
+            const response = await fetch(`${API_BASE}/chat`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ prompt, session_id: sessionId })
+            });
+
+            if (!response.ok) throw new Error(`API Error: ${response.status}`);
+
+            const data = await response.json();
+            chatResponse.innerHTML += `<p><strong>ChatGPT:</strong> ${data.response}</p>`;
+            chatResponse.scrollTop = chatResponse.scrollHeight;  // Auto-scroll to latest message
+
+        } catch (error) {
+            chatResponse.innerHTML += `<p style="color:red;">Error: ${error.message}</p>`;
+        }
+    }
+
+    // ✅ Fix: Attach "Enter" key event to chat input
+    document.addEventListener("DOMContentLoaded", function () {
+        let chatInput = document.getElementById("chatInput");
+
+        chatInput.addEventListener("keydown", function (event) {
+            if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();  // Prevent new line in input
+                sendChat();
+            }
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>
