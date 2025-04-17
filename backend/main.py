@@ -8,9 +8,14 @@ from settings import GPT_API_KEY
 
 app = FastAPI()
 
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://zaaba.github.io"],
+    allow_origins=[
+        "http://localhost:5500",
+        "https://zaaba.github.io",
+        "https://zaaba.github.io/papermachine/frontend/index.html"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
