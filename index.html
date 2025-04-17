@@ -296,6 +296,36 @@
     });
 </script>
 
+<script>
+function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const textareas = document.querySelectorAll("textarea");
+    let content = "";
+
+    textareas.forEach((ta, index) => {
+        const title = ta.closest("section").dataset.title || `Section ${index + 1}`;
+        content += `${title}\n${ta.value.trim()}\n\n`;
+    });
+
+    doc.setFontSize(12);
+    doc.text(content, 10, 10, { maxWidth: 190 });
+    doc.save("paper_machine_output.pdf");
+}
+
+function downloadWord() {
+    const textareas = document.querySelectorAll("textarea");
+    let content = "";
+
+    textareas.forEach((ta, index) => {
+        const title = ta.closest("section").dataset.title || `Section ${index + 1}`;
+        content += `${title}\n${ta.value.trim()}\n\n`;
+    });
+
+    const blob = new Blob([content], { type: "application/msword" });
+    saveAs(blob, "paper_machine_output.doc");
+}
+</script>
 
 
 
