@@ -315,26 +315,28 @@ function downloadPDF() {
 
 async function downloadWord() {
     const textareas = document.querySelectorAll("textarea");
+    const { Document, Packer, Paragraph, HeadingLevel } = window.docx;
 
-    const { Document, Packer, Paragraph, TextRun } = window.docx;
+    const children = [];
 
-    const doc = new Document();
     textareas.forEach((ta, index) => {
         const title = ta.closest("section").dataset.title || `Section ${index + 1}`;
         const content = ta.value.trim();
 
-        doc.addSection({
-            children: [
-                new Paragraph({
-                    text: title,
-                    heading: "Heading1",
-                }),
-                new Paragraph({
-                    text: content,
-                    spacing: { after: 300 },
-                }),
-            ],
-        });
+        children.push(
+            new Paragraph({
+                text: title,
+                heading: HeadingLevel.HEADING_1,
+            }),
+            new Paragraph({
+                text: content,
+                spacing: { after: 300 },
+            })
+        );
+    });
+
+    const doc = new Document({
+        sections: [{ children }]
     });
 
     const blob = await Packer.toBlob(doc);
