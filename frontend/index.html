@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Paper Development</title>
+
+    <!-- Load Required Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docx@7.1.0/build/index.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Load API Configuration -->
+    <script src="config.js"></script>
+
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+        }
+
+        .banner {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .content {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .section-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .section-card:hover {
+            transform: scale(1.02);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            background-color: #f8f9fa;
+            font-size: 1rem;
+            resize: vertical;
+        }
+
+        .chat-container {
+            width: 350px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            right: 20px;
+            bottom: 80px;
+            display: none;
+            z-index: 1000;
+            cursor: move;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .chat-button {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+           background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+            transition: all 0.3s ease;
+        }
+
+        @media screen and (max-width: 600px) {
+            .chat-button {
+                padding: 10px 15px;
+                font-size: 0.85rem;
+                right: 10px;
+                bottom: 10px;
+        }
+
+    .chat-container {
+        width: 90%;
+        right: 10px;
+        bottom: 60px;
+    }
+}
+
+
+        .chat-input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+        }
+
+        .chat-response {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f1f1f1;
+            border-radius: 5px;
+            min-height: 50px;
+            overflow-y: auto;
+            max-height: 300px;
+            user-select: text;
+        }
+
+        .close-chat {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="banner">Article Paper Development</div>
+    <div class="container">
+        <div class="content">
+
+                <!-- Welcome Message -->
+    <div class="welcome-message" style="text-align: center; padding: 15px; font-size: 1.2rem; background-color: #ffffff; box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1); margin-bottom: 20px;">
+        <h2>Welcome To Paper Machine</h2>
+        <p><strong>Answer the questions below to develop your research paper.<br>
+        Once completed, download the responses as a PDF.<br>
+        We will provide a suggested prompt for ChatGPT for your oxygen!</strong></p>
+    </div>
+
+
+            <section class="section-card" data-title="Title and Abstract">
+                <h2>Title and Abstract</h2>
+                <p><strong>1. Clearly state the research problem or question. <br>
+                        2. Provide a brief overview of the existing literature. <br>
+                        3. Present the paper's thesis statement or main argument.</strong></p>
+                <p><strong>General Prompts:</strong><br>
+                    "Generate a research title and an abstract for an article on [insert topic]. The abstract should summarize the
+                    research objectives, methodology, key findings, and significance in 200–250 words."
+                </p>
+                <textarea placeholder="Enter your content here..."></textarea>
+            </section>
+
+            <section class="section-card" data-title="Introduction">
+                <h2>Introduction</h2>
+                <p>1. Conduct a comprehensive review of relevant literature.
+                    <br>2. Identify key theories, concepts, and empirical findings.
+                    <br>3. Highlight gaps in the literature and the need for further research.
+                </p>
+                <p><strong>General Prompts:</strong><br>
+                    "Write an introduction for a research article on [insert topic]. Include the background of the study, the problem
+                    statement, and the objectives of the research. The introduction should be 300–400 words long."
+                </p>
+                <textarea placeholder="Enter your introduction here..."></textarea>
+            </section>
+
+            <section class="section-card" data-title="Literature Review">
+                <h2>Literature Review</h2>
+                <p>1. Develop a theoretical framework that underpins the paper's argument.<br>
+                    2. Define key concepts and their relationships.<br>
+                    3. Explain how the framework contributes to understanding the research problem.</p>
+                <p><strong>General Prompts:</strong><br>
+                    "Provide a literature review section for a study on [insert topic]. Summarize and analyze at least five key scholarly
+                    sources, highlighting their relevance, gaps, and how they inform the current research. Use proper
+                    in-text citations and ensure the section is 600–800 words."
+                </p>
+                <textarea placeholder="Enter the literature review here..."></textarea>
+            </section>
+
+            <section class="section-card" data-title="Theoretical and Conceptual Framework">
+                <h2>Theoretical and Conceptual Framework</h2>
+                <p>1. Formulate clear and testable propositions or hypotheses.<br>
+                    2. Explain how these propositions or hypotheses relate to the theoretical framework.</p>
+                <p><strong>General Prompt:</strong><br>
+                    "Develop the theoretical and conceptual framework for a research article on [insert topic]. Explain the theories or models
+                    that underpin the study, and outline how these are applied in the research context. Include a diagram to
+                    represent the conceptual framework if possible. This section should be 400–500 words."
+                </p>
+                <textarea placeholder="Enter your theoretical framework here..."></textarea>
+            </section>
+
+            <section class="section-card" data-title="Future Work and Conclusion">
+                <h2>Future Work and Conclusion</h2>
+                <p>1. Analyze the implications of the theoretical framework.<br>
+                    2. Discuss the strengths and weaknesses of the proposed framework.<br>
+                    3. Consider potential limitations and future research directions.</p>
+                <p><strong>General Prompts:</strong><br>
+                    "Write a future work section for a study on [insert topic]. Discuss potential research directions, limitations
+                    of the current study, and how future studies could expand on the findings. This section should be
+                    200–300 words long."<br>
+                    "Draft a conclusion for a research article on [insert topic]. Summarize the key findings, their implications,
+                    and the overall contribution of the study. The conclusion should be 250–300 words."
+                </p>
+                <textarea placeholder="Enter your future work and conclusion here..."></textarea>
+            </section>
+
+            <section class="section-card" data-title="References">
+                <h2>References</h2>
+                <p>1. Summarize the main findings and contributions of the paper.<br>
+                    2. Reiterate the significance of the research.<br>
+                    3. Offer concluding remarks and potential implications for future research.</p>
+                <p><strong>General Prompt:</strong><br>
+                    "Generate a reference list in [insert preferred citation style, e.g., APA 7th edition] for the
+                    following sources: [list at least five sources or let the student input them]. Ensure the references
+                    are formatted accurately."
+                </p>
+                <textarea placeholder="Enter your references here..."></textarea>
+            </section>
+            <button onclick="downloadPDF()">Download PDF</button>
+            <button onclick="downloadWord()">Download Word</button>
+        </div>
+    </div>
+
+    <!-- "Chat with GPT" Toggle Button (Now Visible) -->
+    <button class="chat-button" onclick="toggleChat()">Chat with GPT</button>
+
+
+        <!-- Chat Window (Initially Hidden) -->
+    <div class="chat-container" id="chatWindow">
+        <button class="close-chat" onclick="toggleChat()">×</button>
+        <h3>ChatGPT Assistant</h3>
+        <input type="text" id="chatInput" class="chat-input" placeholder="Enter your prompt...">
+        <button onclick="sendChat()">Send</button>
+    <div id="chatResponse" class="chat-response"></div>
+    </div>
+
+<script>
+    // Generate or reuse a unique session ID per user
+    let sessionId = localStorage.getItem("sessionId") || generateSessionId();
+
+    function generateSessionId() {
+        let id = 'session-' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem("sessionId", id);
+        return id;
+    }
+
+    function toggleChat() {
+        let chatWindow = document.getElementById("chatWindow");
+        let isHidden = chatWindow.style.display === "none" || chatWindow.style.display === "";
+        chatWindow.style.display = isHidden ? "block" : "none";
+    }
+
+    async function sendChat() {
+        let prompt = document.getElementById("chatInput").value;
+        if (!prompt) return;
+
+        document.getElementById("chatResponse").innerHTML = "Thinking...";
+
+        try {
+            let response = await fetch("http://localhost:8000/chat", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({prompt: prompt, session_id: sessionId})
+            });
+
+            if (!response.ok) {
+                throw new Error(`API Error: ${response.status} ${response.statusText}`);
+            }
+
+            let data = await response.json();
+            document.getElementById("chatResponse").innerHTML = data.response;
+
+        } catch (error) {
+            console.error(error);
+            document.getElementById("chatResponse").innerHTML = `Error: ${error.message}`;
+        }
+    }
+
+    function makeChatDraggable() {
+        const chatBox = document.getElementById("chatWindow");
+        let offsetX, offsetY, isDragging = false;
+
+        chatBox.addEventListener("mousedown", (event) => {
+            isDragging = true;
+            offsetX = event.clientX - chatBox.getBoundingClientRect().left;
+            offsetY = event.clientY - chatBox.getBoundingClientRect().top;
+            chatBox.style.position = "absolute";
+            chatBox.style.zIndex = 1000;
+        });
+
+        document.addEventListener("mousemove", (event) => {
+            if (!isDragging) return;
+            let x = event.clientX - offsetX;
+            let y = event.clientY - offsetY;
+            chatBox.style.left = `${x}px`;
+            chatBox.style.top = `${y}px`;
+        });
+
+        document.addEventListener("mouseup", () => {
+            isDragging = false;
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        makeChatDraggable();
+        document.getElementById("chatWindow").style.display = "none"; // Ensure it is hidden initially
+    });
+</script>
+
+
+</body>
+
+</html>
