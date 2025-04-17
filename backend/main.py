@@ -21,6 +21,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+def read_root():
+    return {"message": "Backend is working!"}
+
 import openai
 openai.api_key = GPT_API_KEY
 
