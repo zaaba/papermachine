@@ -17,7 +17,9 @@
 
     <style>
         body {
-            font-family: 'Roboto', Arial, sans-serif;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 12pt;
+            text-align: justify;
             margin: 0;
             padding: 0;
             color: #333;
@@ -25,22 +27,35 @@
             line-height: 1.6;
         }
 
-.banner {
-    width: 100%;
-    height: auto;
-    text-align: center;
-    background-color: #1F2A44; /* Matching dark blue background */
-    padding: 0;
-    overflow: hidden;
-}
+        .instruction-list {
+            padding-left: 20px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
 
-.banner img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
+        .instruction-list li {
+            margin-bottom: 6px;
+        }
 
+        p, textarea {
+            text-align: left;
+            text-indent: 30px;
+        }
 
+        .banner {
+            width: 100%;
+            height: auto;
+            text-align: center;
+            background-color: #1F2A44; /* Matching dark blue background */
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .banner img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
 
         .container {
             padding: 20px;
@@ -53,6 +68,7 @@
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s;
             margin-bottom: 20px;
+            overflow-x: auto;
         }
 
         .section-card:hover {
@@ -127,9 +143,81 @@
             top: 10px;
         }
 
+        .prompt-block {
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 90%;
+            padding: 0 10px;
+        }
+
         @media (max-width: 600px) {
             .chat-sidebar {
+                position: absolute;
                 width: 100%;
+                right: 0;
+            }
+        }
+
+        .prompt-block p,
+        .prompt-block ol {
+            text-align: left;
+            margin-left: 0;
+        }
+
+        .prompt-block p {
+            text-align: left !important;
+            margin-bottom: 0;
+        }
+
+        .prompt-block {
+            margin-top: 10px;
+            margin-bottom: 15px;
+            line-height: 1.5;
+            padding-left: 10px;
+        }
+
+        .prompt-block p strong {
+            display: inline;
+        }
+
+        .prompt-block ol {
+            padding-left: 20px;
+        }
+
+        .prompt-block ol li {
+            margin-bottom: 6px;
+        }
+
+        h2 {
+            font-size: 20pt;
+            font-family: 'Georgia', serif;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 4px;
+            margin-bottom: 10px;
+        }
+
+        button, input, textarea {
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .section-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            border: 1px solid #e0e0e0;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+
+            h2 {
+                font-size: 18pt;
             }
         }
     </style>
@@ -144,93 +232,146 @@
         <div class="content">
 
                 <!-- Welcome Message -->
-    <div class="welcome-message" style="text-align: center; padding: 15px; font-size: 1.2rem; background-color: #ffffff; box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1); margin-bottom: 20px;">
+    <div class="welcome-message" style="padding: 15px; font-size: 1.2rem; background-color: #ffffff; box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1); margin-bottom: 20px; text-align: center;">
         <h2>Welcome To Paper Machine</h2>
-        <p><strong>Answer the questions below to develop your research paper.<br>
-        Once completed, download the responses as a PDF.<br>
-        We will provide a suggested prompt for ChatGPT for your oxygen!</strong></p>
+        <div>
+            <div style="display:inline-block; text-align: left;">
+                <p><strong>Answer the questions below to develop your research paper.<br>
+                Once completed, download the responses as a PDF.<br>
+                We will provide a suggested prompt for ChatGPT for your oxygen!</strong></p>
+            </div>
+        </div>
     </div>
 
 
             <section class="section-card" data-title="Title and Abstract">
                 <h2>Title and Abstract</h2>
-                <p><strong>1. Clearly state the research problem or question. <br>
-                        2. Provide a brief overview of the existing literature. <br>
-                        3. Present the paper's thesis statement or main argument.</strong></p>
-                <p><strong>General Prompts:</strong><br>
-                    "Generate a research title and an abstract for an article on [insert topic]. The abstract should summarize the
-                    research objectives, methodology, key findings, and significance in 200–250 words."
+                <div class="prompt-block">
+                <ol class="instruction-list">
+                    <li><strong>Clearly state the research problem or question.</strong></li>
+                    <li><strong>Provide a brief overview of the existing literature.</strong></li>
+                    <li><strong>Present the paper's thesis statement or main argument.</strong></li>
+                </ol>
+                <p style="text-align:center;">
+                    <strong>General Prompts:</strong>
                 </p>
+                <ol>
+                    <li>Generate a research title and abstract for [insert topic].</li>
+                    <li>Summarise objectives, method, findings, and significance (200–250 words).</li>
+                    <li>Use domain-specific terms if needed.</li>
+                </ol>
+                </div>
                 <textarea placeholder="Enter your content here..."></textarea>
             </section>
 
             <section class="section-card" data-title="Introduction">
                 <h2>Introduction</h2>
-                <p>1. Conduct a comprehensive review of relevant literature.
-                    <br>2. Identify key theories, concepts, and empirical findings.
-                    <br>3. Highlight gaps in the literature and the need for further research.
+                <div class="prompt-block">
+                <ol class="instruction-list">
+                    <li><strong>Conduct a comprehensive review of relevant literature.</strong></li>
+                    <li><strong>Identify key theories, concepts, and empirical findings.</strong></li>
+                    <li><strong>Highlight gaps in the literature and the need for further research.</strong></li>
+                </ol>
+                <p style="text-align:center;">
+                    <strong>General Prompts:</strong>
                 </p>
-                <p><strong>General Prompts:</strong><br>
-                    "Write an introduction for a research article on [insert topic]. Include the background of the study, the problem
-                    statement, and the objectives of the research. The introduction should be 300–400 words long."
-                </p>
+                <ol>
+                    <li>Write an introduction for [insert topic].</li>
+                    <li>Include the background of the study, the problem statement, and objectives.</li>
+                    <li>The introduction should be 300–400 words long.</li>
+                </ol>
+                </div>
                 <textarea placeholder="Enter your introduction here..."></textarea>
             </section>
 
             <section class="section-card" data-title="Literature Review">
                 <h2>Literature Review</h2>
-                <p>1. Develop a theoretical framework that underpins the paper's argument.<br>
-                    2. Define key concepts and their relationships.<br>
-                    3. Explain how the framework contributes to understanding the research problem.</p>
-                <p><strong>General Prompts:</strong><br>
-                    "Provide a literature review section for a study on [insert topic]. Summarize and analyze at least five key scholarly
-                    sources, highlighting their relevance, gaps, and how they inform the current research. Use proper
-                    in-text citations and ensure the section is 600–800 words."
+                <div class="prompt-block">
+                <ol class="instruction-list">
+                    <li><strong>Develop a theoretical framework that underpins the paper's argument.</strong></li>
+                    <li><strong>Define key concepts and their relationships.</strong></li>
+                    <li><strong>Explain how the framework contributes to understanding the research problem.</strong></li>
+                </ol>
+                <p style="text-align:center;">
+                    <strong>General Prompts:</strong>
                 </p>
+                <ol>
+                    <li>Provide a literature review section for [insert topic].</li>
+                    <li>Summarize and analyze at least five key scholarly sources.</li>
+                    <li>Use proper in-text citations and ensure the section is 600–800 words.</li>
+                </ol>
+                </div>
                 <textarea placeholder="Enter the literature review here..."></textarea>
             </section>
 
             <section class="section-card" data-title="Theoretical and Conceptual Framework">
                 <h2>Theoretical and Conceptual Framework</h2>
-                <p>1. Formulate clear and testable propositions or hypotheses.<br>
-                    2. Explain how these propositions or hypotheses relate to the theoretical framework.</p>
-                <p><strong>General Prompt:</strong><br>
-                    "Develop the theoretical and conceptual framework for a research article on [insert topic]. Explain the theories or models
-                    that underpin the study, and outline how these are applied in the research context. Include a diagram to
-                    represent the conceptual framework if possible. This section should be 400–500 words."
+                <div class="prompt-block">
+                <ol class="instruction-list">
+                    <li><strong>Formulate clear and testable propositions or hypotheses.</strong></li>
+                    <li><strong>Explain how these propositions or hypotheses relate to the theoretical framework.</strong></li>
+                </ol>
+                <p style="text-align:center;">
+                    <strong>General Prompt:</strong>
                 </p>
+                <ol>
+                    <li>Develop the theoretical and conceptual framework for [insert topic].</li>
+                    <li>Explain the theories or models that underpin the study.</li>
+                    <li>Include a diagram to represent the conceptual framework if possible (400–500 words).</li>
+                </ol>
+                </div>
                 <textarea placeholder="Enter your theoretical framework here..."></textarea>
             </section>
 
             <section class="section-card" data-title="Future Work and Conclusion">
                 <h2>Future Work and Conclusion</h2>
-                <p>1. Analyze the implications of the theoretical framework.<br>
-                    2. Discuss the strengths and weaknesses of the proposed framework.<br>
-                    3. Consider potential limitations and future research directions.</p>
-                <p><strong>General Prompts:</strong><br>
-                    "Write a future work section for a study on [insert topic]. Discuss potential research directions, limitations
-                    of the current study, and how future studies could expand on the findings. This section should be
-                    200–300 words long."<br>
-                    "Draft a conclusion for a research article on [insert topic]. Summarize the key findings, their implications,
-                    and the overall contribution of the study. The conclusion should be 250–300 words."
+                <div class="prompt-block">
+                <ol class="instruction-list">
+                    <li><strong>Analyze the implications of the theoretical framework.</strong></li>
+                    <li><strong>Discuss the strengths and weaknesses of the proposed framework.</strong></li>
+                    <li><strong>Consider potential limitations and future research directions.</strong></li>
+                </ol>
+                <p style="text-align:center;">
+                    <strong>General Prompts:</strong>
                 </p>
+                <ol>
+                    <li>Write a future work section for [insert topic].</li>
+                    <li>Discuss potential research directions and limitations of the current study.</li>
+                    <li>This section should be 200–300 words long.</li>
+                </ol>
+                <p style="text-align:center;">
+                    <strong>Draft a conclusion for [insert topic].</strong>
+                </p>
+                <ol>
+                    <li>Summarize the key findings and their implications.</li>
+                    <li>State the overall contribution of the study (250–300 words).</li>
+                </ol>
+                </div>
                 <textarea placeholder="Enter your future work and conclusion here..."></textarea>
             </section>
 
             <section class="section-card" data-title="References">
                 <h2>References</h2>
-                <p>1. Summarize the main findings and contributions of the paper.<br>
-                    2. Reiterate the significance of the research.<br>
-                    3. Offer concluding remarks and potential implications for future research.</p>
-                <p><strong>General Prompt:</strong><br>
-                    "Generate a reference list in [insert preferred citation style, e.g., APA 7th edition] for the
-                    following sources: [list at least five sources or let the student input them]. Ensure the references
-                    are formatted accurately."
+                <div class="prompt-block">
+                <ol class="instruction-list">
+                    <li><strong>Summarize the main findings and contributions of the paper.</strong></li>
+                    <li><strong>Reiterate the significance of the research.</strong></li>
+                    <li><strong>Offer concluding remarks and potential implications for future research.</strong></li>
+                </ol>
+                <p style="text-align:center;">
+                    <strong>General Prompt:</strong>
                 </p>
+                <ol>
+                    <li>Generate a reference list in [insert preferred citation style, e.g., APA 7th edition].</li>
+                    <li>List at least five sources or let the student input them.</li>
+                    <li>Ensure the references are formatted accurately.</li>
+                </ol>
+                </div>
                 <textarea placeholder="Enter your references here..."></textarea>
             </section>
             <button onclick="downloadPDF()">Download PDF</button>
-            <button onclick="downloadWord()">Download Word</button>
+            <button onclick="downloadTxt()">Download as TXT</button>
+            <button onclick="downloadLatex()">Download as LaTeX</button>
         </div>
     </div>
 
@@ -294,52 +435,83 @@
             }
         });
     });
+  function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit: "pt", format: "a4" });
+      const textareas = document.querySelectorAll("textarea");
+      let y = 40;
+
+      textareas.forEach((ta, index) => {
+          const title = ta.closest("section").dataset.title || `Section ${index + 1}`;
+          const content = ta.value.trim();
+
+          doc.setFontSize(14);
+          doc.setFont("Times", "bold");
+          doc.text(title, 40, y);
+          y += 24;
+
+          doc.setFontSize(12);
+          doc.setFont("Times", "normal");
+
+          const lines = doc.splitTextToSize(content, 500);
+          lines.forEach(line => {
+              if (y > 780) {
+                  doc.addPage();
+                  y = 40;
+              }
+              doc.text(line, 40, y);
+              y += 18;
+          });
+
+          y += 20;
+      });
+
+      doc.save("paper_machine_output.pdf");
+  }
 </script>
 
 <script>
-function downloadPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+function downloadTxt() {
     const textareas = document.querySelectorAll("textarea");
     let content = "";
 
     textareas.forEach((ta, index) => {
         const title = ta.closest("section").dataset.title || `Section ${index + 1}`;
-        content += `${title}\n${ta.value.trim()}\n\n`;
+        const text = ta.value.trim();
+        content += `${title}\n${text}\n\n`;
     });
 
-    doc.setFontSize(12);
-    doc.text(content, 10, 10, { maxWidth: 190 });
-    doc.save("paper_machine_output.pdf");
+    const blob = new Blob([content], { type: "text/plain" });
+    saveAs(blob, "paper_machine_output.txt");
 }
 </script>
-
 <script>
-function downloadWord() {
+function downloadLatex() {
     const textareas = document.querySelectorAll("textarea");
-
-    let content = `
-        <html xmlns:o='urn:schemas-microsoft-com:office:office'
-              xmlns:w='urn:schemas-microsoft-com:office:word'
-              xmlns='http://www.w3.org/TR/REC-html40'>
-        <head><meta charset='utf-8'><title>Document</title></head><body>`;
+    let content = "\\documentclass{article}\n\\usepackage[utf8]{inputenc}\n\\begin{document}\n";
 
     textareas.forEach((ta, index) => {
         const title = ta.closest("section").dataset.title || `Section ${index + 1}`;
-        const text = ta.value.trim().replace(/\n/g, "<br>");
-        content += `<h2>${title}</h2><p>${text}</p>`;
+        const text = ta.value.trim()
+            .replace(/&/g, "\\&")
+            .replace(/%/g, "\\%")
+            .replace(/\$/g, "\\$")
+            .replace(/#/g, "\\#")
+            .replace(/_/g, "\\_")
+            .replace(/{/g, "\\{")
+            .replace(/}/g, "\\}")
+            .replace(/~/g, "\\textasciitilde{}")
+            .replace(/\^/g, "\\textasciicircum{}")
+            .replace(/\\/g, "\\textbackslash{}");
+        content += `\\section*{${title}}\n${text}\n\n`;
     });
 
-    content += `</body></html>`;
+    content += "\\end{document}";
 
-    const blob = new Blob(['\ufeff', content], {
-        type: 'application/msword'
-    });
-
-    saveAs(blob, "paper_machine_output.docx");
+    const blob = new Blob([content], { type: "text/plain" });
+    saveAs(blob, "paper_machine_output.tex");
 }
 </script>
-
 </body>
 </html>
 
