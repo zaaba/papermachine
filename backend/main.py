@@ -76,7 +76,7 @@ async def chat(request: ChatRequest):
     response = requests.post(
         "https://api.openai.com/v1/chat/completions",
         headers=headers,
-        json={"model": "gpt-3.5-turbo", "messages": conversation},
+        json={"model": "gpt-4.1-mini", "messages": conversation},
     )
 
     if response.status_code == 200:
